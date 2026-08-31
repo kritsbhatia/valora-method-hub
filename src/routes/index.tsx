@@ -4,9 +4,9 @@ import { OfferCarousel, offers, type Offer } from "@/components/OfferCarousel";
 import heroWoman from "@/assets/hero-woman.jpg";
 import infinity from "@/assets/infinity-emblem.png";
 import savannah from "@/assets/savannah-story.jpg";
-import sandra from "@/assets/sandra.jpg.asset.json";
-import transformation1 from "@/assets/transformation-1.jpg.asset.json";
-import transformation2 from "@/assets/transformation-2.jpg.asset.json";
+import sandra from "@/assets/sandra.jpg";
+import transformation1 from "@/assets/transformation-1.jpg";
+import transformation2 from "@/assets/transformation-2.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -59,7 +59,7 @@ const transformations = [
   {
     name: "Michelle",
     timeline: "January → today",
-    src: transformation1.url,
+    src: transformation1,
     alt: "Side-by-side progress photos of Michelle showing posture and body composition changes over several months",
     quote:
       "I had never lifted a weight in my life. Sandra started me where I actually was, and every month I felt a little stronger and a little more like myself.",
@@ -67,7 +67,7 @@ const transformations = [
   {
     name: "Andrea",
     timeline: "Twelve months of coaching",
-    src: transformation2.url,
+    src: transformation2,
     alt: "Side-by-side progress photos of Andrea showing improved posture and muscle definition across a year of training",
     quote:
       "The difference was consistency, not intensity. Weekly check-ins kept me honest and the workouts fit around my job and my kids.",
@@ -198,7 +198,7 @@ function Index() {
           <div className="relative mx-auto w-full max-w-sm md:max-w-none">
             <div className="absolute -inset-3 border border-gold/40" aria-hidden />
             <img
-              src={sandra.url}
+              src={sandra}
               alt="Sandra Ruiz-White, founder of Valora Method"
               loading="lazy"
               width={840}
