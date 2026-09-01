@@ -441,26 +441,21 @@ function Index() {
             </div>
           ) : (
             <form
-              name="apply"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
               className="mt-12 grid gap-5 sm:grid-cols-2"
               onSubmit={async (e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
-                formData.append("form-name", "apply");
+                formData.append("access_key", "fc579bba-68e2-41da-b1ae-ba30798ac686");
+                formData.append("subject", "New Valora Method Application");
                 try {
-                  await fetch("/", {
+                  await fetch("https://api.web3forms.com/submit", {
                     method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
+                    body: formData,
                   });
                 } catch (_) {}
                 setSent(true);
               }}
             >
-              <input type="hidden" name="form-name" value="apply" />
-              <input type="hidden" name="bot-field" />
               <label className="flex flex-col gap-2 text-xs tracking-[0.16em] uppercase">
                 First name
                 <input
