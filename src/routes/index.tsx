@@ -93,6 +93,7 @@ function Index() {
   const formRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState("The Valora Method");
   const [sent, setSent] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const goToForm = (offer?: Offer) => {
     if (offer) setSelected(offer.name);
@@ -116,7 +117,6 @@ function Index() {
             <a href="#offers" className="hover:text-gold">
               Coaching
             </a>
-
             <a href="#compare" className="hover:text-gold">
               Compare
             </a>
@@ -124,14 +124,36 @@ function Index() {
               Results
             </a>
           </nav>
-          <button
-            type="button"
-            onClick={() => goToForm()}
-            className="bg-primary px-5 py-3 text-[0.65rem] tracking-[0.2em] text-primary-foreground uppercase transition-colors hover:bg-primary/90"
-          >
-            Start here
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              onClick={() => setMenuOpen((o) => !o)}
+              className="flex flex-col justify-center gap-[5px] p-1 md:hidden"
+            >
+              <span className={`block h-px w-6 bg-foreground transition-all duration-200 ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
+              <span className={`block h-px w-6 bg-foreground transition-all duration-200 ${menuOpen ? "opacity-0" : ""}`} />
+              <span className={`block h-px w-6 bg-foreground transition-all duration-200 ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
+            </button>
+            <button
+              type="button"
+              onClick={() => goToForm()}
+              className="bg-primary px-5 py-3 text-[0.65rem] tracking-[0.2em] text-primary-foreground uppercase transition-colors hover:bg-primary/90"
+            >
+              Start here
+            </button>
+          </div>
         </div>
+        {menuOpen && (
+          <nav className="border-t border-border/50 bg-background/95 md:hidden">
+            <div className="flex flex-col px-5 text-xs tracking-[0.18em] uppercase">
+              <a href="#about" onClick={() => setMenuOpen(false)} className="border-b border-border/40 py-4 hover:text-gold">About</a>
+              <a href="#offers" onClick={() => setMenuOpen(false)} className="border-b border-border/40 py-4 hover:text-gold">Coaching</a>
+              <a href="#compare" onClick={() => setMenuOpen(false)} className="border-b border-border/40 py-4 hover:text-gold">Compare</a>
+              <a href="#proof" onClick={() => setMenuOpen(false)} className="py-4 hover:text-gold">Results</a>
+            </div>
+          </nav>
+        )}
       </header>
 
       {/* Hero */}
@@ -419,12 +441,26 @@ function Index() {
             </div>
           ) : (
             <form
+              name="apply"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
               className="mt-12 grid gap-5 sm:grid-cols-2"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                formData.append("form-name", "apply");
+                try {
+                  await fetch("/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
+                  });
+                } catch (_) {}
                 setSent(true);
               }}
             >
+              <input type="hidden" name="form-name" value="apply" />
+              <input type="hidden" name="bot-field" />
               <label className="flex flex-col gap-2 text-xs tracking-[0.16em] uppercase">
                 First name
                 <input
