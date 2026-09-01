@@ -445,7 +445,7 @@ function Index() {
               onSubmit={async (e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
-                formData.append("access_key", "fc579bba-68e2-41da-b1ae-ba30798ac686");
+                formData.append("access_key", "4247019a-795d-41ca-a18e-7c8dca09dae1");
                 formData.append("subject", "New Valora Method Application");
                 try {
                   await fetch("https://api.web3forms.com/submit", {
